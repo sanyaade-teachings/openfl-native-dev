@@ -82,6 +82,11 @@ else
 endif
 endif
 
+ifdef SS_WEBOS
+	AR = arm-none-linux-gnueabi-ar rcs
+	AR2 = arm-none-linux-gnueabi-ranlib
+endif
+
 
 # source files: JPEG library proper
 LIBSOURCES= jcapimin.c jcapistd.c jccoefct.c jccolor.c jcdctmgr.c jchuff.c \

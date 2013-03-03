@@ -32,7 +32,7 @@ ifeq ("$(OS)","darwin")
   SS_MAC := 1
   export SS_MAC
   SS_CONFIG := mac
-  LIB_DIR := ../bin/Mac
+  LIB_DIR := ../lib/Mac
   JCONFIG := jconfig.mac
   SS_DLLEXT := .dylib
 
@@ -44,7 +44,7 @@ ifeq ("$(OS)","darwin")
   SS_CC := gcc -O2
   ifdef SS_64
    SS_CC += -fPIC -m64 -D_GNU_SOURCE=1 -DTARGET_API_MAC_CARBON -DTARGET_API_MAC_OSX -I/opt/X11/include
-   LIB_DIR := ../bin/Mac64
+   LIB_DIR := ../lib/Mac64
   else
    SS_CC += -fPIC -m32 -D_GNU_SOURCE=1 -DTARGET_API_MAC_CARBON -DTARGET_API_MAC_OSX -I/opt/X11/include
   endif
@@ -64,12 +64,13 @@ ifeq ("$(OS)","webos")
   export SS_WEBOS
   export PATH
   SS_CONFIG := webos
-  LIB_DIR := ../bin/webOS
+  LIB_DIR := ../lib/webOS
   #JCONFIG := jconfig.mac
   SS_DLLEXT := .so
   SDL := ERROR
   SS_CC := arm-none-linux-gnueabi-gcc -mfloat-abi=softfp -DWEBOS
   SS_RANLIB :=  arm-none-linux-gnueabi-ranlib
+  SS_CREATELIB := arm-none-linux-gnueabi-ar -cr$(SPACE)
 endif
 
 
@@ -109,7 +110,7 @@ else
 endif
   
   SS_CONFIG := blackberry
-  LIB_DIR := ../bin/BlackBerry
+  LIB_DIR := ../lib/BlackBerry
   #JCONFIG := jconfig.mac
   #SDL := ERROR
   
@@ -133,17 +134,17 @@ endif
   SS_ANDROID := 1
   export SS_ANDROID
   SS_CONFIG := android
-  LIB_DIR := ../bin/Android
+  LIB_DIR := ../lib/Android
   #JCONFIG := jconfig.mac
   SS_DLLEXT := .so
   SDL := ERROR
-  SS_CC :=  gcc \
+  SS_CC := gcc \
  "-I$(ANDROID_NDK_ROOT)/toolchains/arm-linux-androideabi-4.4.3/prebuilt/$(ANDROID_HOST)/lib/gcc/arm-linux-androideabi/4.4.3/include/" \
  "-I$(ANDROID_NDK_ROOT)/sources/cxx-stl/gnu-libstdc++/include" \
  "-I$(ANDROID_NDK_ROOT)/sources/cxx-stl/gnu-libstdc++/libs/armeabi/include" \
  "-I$(ANDROID_NDK_ROOT)/platforms/android-5/arch-arm/usr/include" \
 -D_LINUX_STDDEF_H \
--fpic -fvisibility=hidden -mthumb-interwork -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums -frtti -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ -Wno-psabi -march=armv5te -mtune=xscale -msoft-float -mthumb -Os -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -O2 -DNDEBUG -g -c
+-fpic -fvisibility=hidden -mthumb-interwork -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ -Wno-psabi -march=armv5te -mtune=xscale -msoft-float -mthumb -Os -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -O2 -DNDEBUG -g -c
   SS_RANLIB := "ranlib"
 endif
 
@@ -174,7 +175,7 @@ ifeq ("$(OS)","iphoneos")
   JCONFIG := jconfig.mac
   SS_CONFIG := iphoneos
   SS_IPHONE := 1
-  LIB_DIR := ../bin/iPhone
+  LIB_DIR := ../lib/iPhone
   SDL_INC := ../include/SDL12
   SDL := ERROR
   SS_CC := $(XCODE_DEVELOPER)/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc  \
@@ -195,7 +196,7 @@ ifeq ("$(OS)","iphonesim")
   export SS_IPHONE
   JCONFIG := jconfig.mac
   SS_CONFIG := iphonesim
-  LIB_DIR := ../bin/iPhone
+  LIB_DIR := ../lib/iPhone
   SDL_INC := ../include/SDL12
   SDL := ERROR
   SS_IPHONE := 1
@@ -216,14 +217,14 @@ ifeq ("$(OS)","linux")
   ifeq ($(shell uname -a | cut -f 2 -d ' '),raspberrypi)
    SS_RPI := 1
    SS_CC += -fPIC -DRASPBERRYPI
-   LIB_DIR := ../bin/RPi
+   LIB_DIR := ../lib/RPi
   else
    ifdef SS_64
     SS_CC += -fPIC -m64
-    LIB_DIR := ../bin/Linux64
+    LIB_DIR := ../lib/Linux64
    else
     SS_CC += -fPIC -m32
-    LIB_DIR := ../bin/Linux
+    LIB_DIR := ../lib/Linux
    endif
   endif
   export SS_ABI
@@ -237,10 +238,10 @@ ifeq ("$(OS)","windows")
   export SS_WINDOWS
   SS_CONFIG := windows
   ifdef SS_WINRT
-   LIB_DIR := ../bin/WinRTx86
+   LIB_DIR := ../lib/WinRTx86
    SS_CC := cl.exe -nologo -MT -DWINAPI_FAMILY=WINAPI_FAMILY_APP /WX- /fp:precise -Z7 -O2 -DWINRT
   else
-   LIB_DIR := ../bin/Windows
+   LIB_DIR := ../lib/Windows
    SS_CC := cl.exe -nologo -MT -Z7 -O2 -DWIN32
   endif
   SS_LIBEXT := .lib
@@ -258,7 +259,7 @@ ifeq ("$(OS)","winrt")
   SS_WINRT := 1
   export SS_WINRT
   SS_CONFIG := winrt
-  LIB_DIR := ../bin/WinRTx86
+  LIB_DIR := ../lib/WinRTx86
   SS_LIBEXT := .lib
   JCONFIG := jconfig.vc
   SS_CC := cl.exe -nologo -Z7 -O2 -DWIN32 -DWINAPI_FAMILY=2 "-Ic:\Program Files (x86)\Windows Kits\8.0\Include\shared" /Zl
@@ -509,7 +510,7 @@ ifdef SS_WINRT
 	cp patches/jpeg/makefile.winrt $(JPEG)/makefile.vc
 endif
 ifdef SS_WINDOWS
-	cd $(JPEG); unset MAKEFLAGS; nmake -f makefile.vc nodebug=1
+	cd $(JPEG); unset MAKEFLAGS; nmake -f makefile.vc nodebug=1 -I"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Include"
 else
 	cp configs/jpeg-makefile $(JPEG)/Makefile
 	cd $(JPEG); make -f Makefile nodebug=1

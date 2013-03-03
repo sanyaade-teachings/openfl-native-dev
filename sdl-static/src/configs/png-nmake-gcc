@@ -24,6 +24,11 @@ else
 endif
 endif
 
+ifdef SS_WEBOS
+	AR_RC = arm-none-linux-gnueabi-ar rcs
+	RANLIB = arm-none-linux-gnueabi-ranlib
+endif
+
 CDEBUG = -g -DPNG_DEBUG=5
 LDDEBUG =
 CRELEASE = -O2
