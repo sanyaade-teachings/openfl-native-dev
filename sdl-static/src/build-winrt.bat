@@ -9,5 +9,5 @@ call C:\Development\BlackBerry\bbndk\bbndk-env.bat
 :: Building libraries
 
 make clean
-make OS=windows SS_WINRT=1 
+make OS=windows SS_WINRT=1 %1
 make clean

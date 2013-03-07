@@ -470,7 +470,7 @@ clean::
 
 # --- PNG ------------------------
 
-PNG := libpng-1.2.24
+PNG := libpng-1.2.50
 
 png:$(PNG)
 

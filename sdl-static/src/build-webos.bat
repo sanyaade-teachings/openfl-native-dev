@@ -5,5 +5,5 @@ call C:\Development\BlackBerry\bbndk\bbndk-env.bat
 :: Building libraries
 
 make clean
-make OS=webos
+make OS=webos %1
 make clean
