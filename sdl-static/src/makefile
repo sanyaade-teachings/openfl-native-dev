@@ -43,6 +43,8 @@ ifeq ("$(OS)","darwin")
   export MACOSX_DEPLOYMENT_TARGET
   SS_CC := gcc -O2
   ifdef SS_64
+   SS_MAC64 := 1
+   export SS_MAC64
    SS_CC += -fPIC -m64 -D_GNU_SOURCE=1 -DTARGET_API_MAC_CARBON -DTARGET_API_MAC_OSX -I/opt/X11/include
    LIB_DIR := ../lib/Mac64
   else
@@ -319,10 +321,12 @@ ifndef SS_IPHONE
 ifndef SS_WEBOS
 ifndef SS_ANDROID
 ifndef SS_WINRT
+ifndef SS_MAC64
 all: smpeg 
 all: sdl 
 all: sdl_ttf 
 all: sdl_mixer
+endif
 endif
 endif
 endif
