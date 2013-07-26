@@ -21,12 +21,12 @@ SS_LIBEXT := .a
 SS_OBJEXT := .o
 SS_CC := gcc -O2
 SS_OBJOUT := -o
-EMPTY := 
+EMPTY :=
 SPACE :=  $(EMPTY) $(EMPTY)
 SS_CREATELIB := ar -cr$(SPACE)
 SDL_INC := ../include/SDL12
 SDL := SDL-1.2.12
-SS_CREATEDLL := gcc -dynamic -fPIC -o 
+SS_CREATEDLL := gcc -dynamic -fPIC -o
 
 ifeq ("$(OS)","darwin")
   SS_MAC := 1
@@ -50,7 +50,7 @@ ifeq ("$(OS)","darwin")
   else
    SS_CC += -fPIC -m32 -D_GNU_SOURCE=1 -DTARGET_API_MAC_CARBON -DTARGET_API_MAC_OSX -I/opt/X11/include
   endif
- 
+
 endif
 
 ifeq ("$(OS)","webos")
@@ -90,18 +90,18 @@ endif
 
   SS_BLACKBERRY := 1
   export SS_BLACKBERRY
-  
+
 ifeq ("$(ARCH)","x86")
 
   SS_ARCH_X86 := 1
   export SS_ARCH_X86
-  
+
   SS_LIBEXT := -x86.a
   SS_DLLEXT := -x86.so
   SS_CC :=  i486-pc-nto-qnx6.5.0-gcc "-I${QNX_TARGET}/usr/include" -DBLACKBERRY -fpic -fPIC -O2 -fvisibility=hidden
   SS_RANLIB := i486-pc-nto-qnx6.5.0-ranlib
   SS_CREATELIB := i486-pc-nto-qnx6.5.0-ar -cr$(SPACE)
-  
+
 else
 
   SS_DLLEXT := .so
@@ -110,12 +110,12 @@ else
   SS_CREATELIB := arm-unknown-nto-qnx6.5.0eabi-ar -cr$(SPACE)
 
 endif
-  
+
   SS_CONFIG := blackberry
   LIB_DIR := ../lib/BlackBerry
   #JCONFIG := jconfig.mac
   #SDL := ERROR
-  
+
 endif
 
 
@@ -284,10 +284,10 @@ export SS_DLLEXT
 export SS_CREATEDLL
 export SDL_INC
 
-all: print 
+all: print
 
 ifndef SS_ANDROID
-all: zlib 
+all: zlib
 endif
 
 ifndef SS_MAC
@@ -299,32 +299,33 @@ endif
 endif
 
 ifndef SS_WINRT
-all: curl 
+all: curl
 all: curl-ssl
 endif
 
-all: png 
-all: jpeg 
+all: png
+all: jpeg
 
 ifndef SS_WEBOS
 ifndef SS_ANDROID
 ifndef SS_WINRT
-all: ogg 
-all: vorbis 
+all: ogg
+all: vorbis
+all: theora
 endif
 endif
 endif
 
-all: freetype 
+all: freetype
 
 ifndef SS_IPHONE
 ifndef SS_WEBOS
 ifndef SS_ANDROID
 ifndef SS_WINRT
 ifndef SS_MAC64
-all: smpeg 
-all: sdl 
-all: sdl_ttf 
+all: smpeg
+all: sdl
+all: sdl_ttf
 all: sdl_mixer
 endif
 endif
@@ -361,7 +362,7 @@ endif
 clean::
 	rm -rf $(ZLIB)
 
-	
+
 # --- OpenAL ----------------------
 OPENAL := openal-soft-1.15.1
 
@@ -592,7 +593,7 @@ endif
 clean::
 	rm -rf $(FREETYPE)
 	rm -rf ._$(FREETYPE)
-	
+
 
 # --- SMPEG ------------------------
 
@@ -613,6 +614,28 @@ clean::
 	rm -rf $(SMPEG)
 
 
+# --- THEORA ------------------------
+
+THEORA := libtheora-1.1.1
+
+theora: $(THEORA)
+
+$(THEORA):
+	tar xvjf tars/$(THEORA).tar.bz2 $(TAR_ARGS)
+	cp patches/theora/theoraplay.c $(THEORA)/lib
+	cp patches/theora/theoraplay.h $(THEORA)/include
+	cp patches/theora/theoraplay_cvtrgb.h $(THEORA)/include
+	cp configs/theora-makefile $(THEORA)/Makefile
+	cd $(THEORA); make
+	cp $(THEORA)/libtheora$(SS_LIBEXT) $(LIB_DIR)
+	mkdir -p ../include/theora
+	cp $(THEORA)/include/theora/theora.h ../include/theora
+	cp $(THEORA)/include/theora/theoradec.h ../include/theora
+	cp $(THEORA)/include/theora/codec.h ../include/theora
+	cp $(THEORA)/include/theoraplay.h ../include
+
+clean::
+	rm -rf $(THEORA)
 
 
 # --- SDL ------------------------
@@ -706,5 +729,5 @@ clean::
 	rm -rf $(SDL_MIXER)
 
 
-endif 
+endif
 
