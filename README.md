@@ -1,7 +1,7 @@
 nmedev
 ======
 
-"nmedev" includes headers and libraries in to help build NME from the source.
+"nmedev" includes headers and libraries to help build NME from the source.
 
 Install this library using the following command:
 
