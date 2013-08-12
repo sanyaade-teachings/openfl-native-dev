@@ -4,4 +4,4 @@
 #
 
 make clean
-make OS=iphonesim VER=6.1
+make OS=iphonesim VER=6.1 $1

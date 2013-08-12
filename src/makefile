@@ -28,6 +28,18 @@ SDL_INC := ../include/SDL12
 SDL := SDL-1.2.12
 SS_CREATEDLL := gcc -dynamic -fPIC -o
 
+
+ifeq ("$(wildcard /Applications/Xcode.app/*)","")
+  XCODE_DEVELOPER :=  /Developer
+else
+  XCODE_DEVELOPER :=  /Applications/Xcode.app/Contents/Developer
+endif
+
+MACOSX_VER := 10.7
+ifneq ("$(VER)","")
+   MACOSX_VER := $(VER)
+endif
+
 ifeq ("$(OS)","darwin")
   SS_MAC := 1
   export SS_MAC
@@ -45,10 +57,14 @@ ifeq ("$(OS)","darwin")
   ifdef SS_64
    SS_MAC64 := 1
    export SS_MAC64
-   SS_CC += -fPIC -m64 -D_GNU_SOURCE=1 -DTARGET_API_MAC_CARBON -DTARGET_API_MAC_OSX -I/opt/X11/include
+   SS_CC += -fPIC -m64 -D_GNU_SOURCE=1 -DTARGET_API_MAC_CARBON -DTARGET_API_MAC_OSX -I/opt/X11/include \
+            -I$(XCODE_DEVELOPER)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(MACOSX_VER).sdk/usr/include/ \
+            -isysroot $(XCODE_DEVELOPER)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(MACOSX_VER).sdk
    LIB_DIR := ../lib/Mac64
   else
-   SS_CC += -fPIC -m32 -D_GNU_SOURCE=1 -DTARGET_API_MAC_CARBON -DTARGET_API_MAC_OSX -I/opt/X11/include
+   SS_CC += -fPIC -m32 -D_GNU_SOURCE=1 -DTARGET_API_MAC_CARBON -DTARGET_API_MAC_OSX -I/opt/X11/include \
+            -I$(XCODE_DEVELOPER)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(MACOSX_VER).sdk/usr/include/ \
+            -isysroot $(XCODE_DEVELOPER)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(MACOSX_VER).sdk
   endif
 
 endif
@@ -151,12 +167,6 @@ endif
 endif
 
 
-
-ifeq ("$(wildcard /Applications/Xcode.app/*)","")
-  XCODE_DEVELOPER :=  /Developer
-else
-  XCODE_DEVELOPER :=  /Applications/Xcode.app/Contents/Developer
-endif
 
 IPHONE_VER := 6.0
 ifneq ("$(VER)","")

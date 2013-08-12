@@ -4,4 +4,4 @@
 #
 
 make clean
-make OS=iphoneos VER=6.1 ARM=v7
+make OS=iphoneos VER=6.1 ARM=v7 $1
