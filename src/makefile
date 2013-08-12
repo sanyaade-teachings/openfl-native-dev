@@ -575,7 +575,7 @@ clean::
 
 # --- FREETYPE ------------------------
 
-FREETYPE := freetype-2.4.11
+FREETYPE := freetype-2.5.0.1
 
 freetype:$(FREETYPE)
 
