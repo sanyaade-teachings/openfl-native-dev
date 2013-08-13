@@ -11,4 +11,4 @@ call C:\Development\BlackBerry\bbndk\bbndk-env.bat
 
 make clean
 make OS=windows %1
-make clean
+::make clean

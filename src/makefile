@@ -741,3 +741,29 @@ clean::
 
 endif
 
+
+# --- SDL2 -----------------------
+
+SDL2 := SDL2-2.0.0
+SDL2_INC := ../include/SDL2
+
+sdl2:$(SDL2)
+
+$(SDL2):
+	tar xzf tars/$(SDL2).tgz $(TAR_ARGS)
+	mkdir -p $(SDL2_INC)
+	mkdir $(SDL2)-build
+	cd $(SDL2)-build; cmake ../$(SDL2) -DDIRECTX=OFF -DSDL_STATIC=ON
+ifdef SS_WINDOWS
+	msbuild $(SDL2)-build/SDL2-static.vcxproj /p:Configuration=Release
+	cp $(SDL2)-build/Release/SDL2$(SS_LIBEXT) $(LIB_DIR)/libSDL2$(SS_LIBEXT)
+	msbuild $(SDL2)-build/SDL2main.vcxproj /p:Configuration=Release
+	cp $(SDL2)-build/Release/SDL2main$(SS_LIBEXT) $(LIB_DIR)/libSDL2main$(SS_LIBEXT)
+	cp $(SDL2)/include/*.h $(SDL2_INC)
+else
+	cp $(SDL2)/include/*.h $(SDL2_INC)
+endif
+
+clean::
+	rm -rf $(SDL2)-build
+	rm -rf $(SDL2)
