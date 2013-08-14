@@ -767,3 +767,21 @@ endif
 clean::
 	rm -rf $(SDL2)-build
 	rm -rf $(SDL2)
+	
+	
+# --- SDL2_MIXER ------------------------
+
+SDL2_MIXER := SDL2_mixer-2.0.0
+
+sdl2_mixer:$(SDL2_MIXER)
+
+$(SDL2_MIXER):
+	-tar xvzf tars/$(SDL2_MIXER).tgz $(TAR_ARGS)
+	#cp configs/sdl_mixer-makefile $(SDL2_MIXER)/Makefile
+	#cd $(SDL2_MIXER); make configure;
+	cd $(SDL2_MIXER); make
+	cp $(SDL2_MIXER)/libSDL2_mixer$(SS_LIBEXT) $(LIB_DIR)
+	cp $(SDL2_MIXER)/SDL_mixer.h ../include/SDL2/SDL_mixer.h
+
+clean::
+	rm -rf $(SDL2_MIXER)
