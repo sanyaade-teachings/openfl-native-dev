@@ -1,0 +1,17 @@
+{
+  "name": "nmedev",
+  "url": "http://www.nme.io/",
+  "license": "MIT",
+  "tags": [],
+  "description": "Supporting headers and binaries to make it simpler to work with NME from the source.",
+  "version": "4.0.1",
+  "releasenote": "Update to match NME dev repository",
+  "contributors": ["singmajesty"],
+  "dependencies": {
+    "hxcpp": "",
+    "swf": "",
+    "xfl": "",
+    "format": "",
+    "svg": ""
+  }
+}
