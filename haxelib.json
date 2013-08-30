@@ -1,17 +1,13 @@
 {
   "name": "nmedev",
-  "url": "http://www.nme.io/",
+  "url": "http://github.com/haxenme",
   "license": "MIT",
   "tags": [],
   "description": "Supporting headers and binaries to make it simpler to work with NME from the source.",
-  "version": "4.0.1",
-  "releasenote": "Update to match NME dev repository",
+  "version": "4.2.0",
+  "releasenote": "Update version",
   "contributors": ["singmajesty"],
   "dependencies": {
-    "hxcpp": "",
-    "swf": "",
-    "xfl": "",
-    "format": "",
-    "svg": ""
+    "hxcpp": ""
   }
 }
