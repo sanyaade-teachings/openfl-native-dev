@@ -764,6 +764,8 @@ ifdef SS_WINDOWS
 	cp $(SDL2)-build/Release/SDL2main$(SS_LIBEXT) $(LIB_DIR)/libSDL2main$(SS_LIBEXT)
 	cp $(SDL2)/include/*.h $(SDL2_INC)
 else
+	cd $(SDL2)-build; make SDL2-static
+	cp $(SDL2)-build/libSDL2$(SS_LIBEXT) $(LIB_DIR)
 	cp $(SDL2)/include/*.h $(SDL2_INC)
 endif
 
