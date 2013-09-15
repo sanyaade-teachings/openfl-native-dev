@@ -756,7 +756,8 @@ $(SDL2):
 	tar xzf tars/$(SDL2).tgz $(TAR_ARGS)
 	mkdir -p $(SDL2_INC)
 	mkdir $(SDL2)-build
-	cd $(SDL2)-build; cmake ../$(SDL2) -DDIRECTX=OFF -DSDL_STATIC=ON
+	cp patches/SDL2/CMakeLists.txt $(SDL2)
+	cd $(SDL2)-build; cmake ../$(SDL2) -DDIRECTX=OFF -DSDL_STATIC=ON -DSDL_TIMERS=TRUE
 ifdef SS_WINDOWS
 	#msbuild $(SDL2)-build/SDL2-static.vcxproj /p:Configuration=Release
 	#cp $(SDL2)-build/Release/SDL2$(SS_LIBEXT) $(LIB_DIR)/libSDL2$(SS_LIBEXT)
