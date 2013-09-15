@@ -381,13 +381,16 @@ openal:$(OPENAL)
 $(OPENAL):
 	tar xvzf tars/$(OPENAL).tgz $(TAR_ARGS)
 	@echo $(OS)
-	cd $(OPENAL)/build; cmake
-	cp $(OPENAL)/libopenal-soft$(SS_LIBEXT) $(LIB_DIR)
+	mkdir $(OPENAL)-build
+	cd $(OPENAL)-build; cmake ../$(OPENAL)
+	cd $(OPENAL)-build; make
+	cp $(OPENAL)-build/libopenal-soft$(SS_LIBEXT) $(LIB_DIR)
 ifdef SS_RANLIB
 	$(SS_RANLIB) $(LIB_DIR)/libopenal-soft$(SS_LIBEXT)
 endif
 
 clean::
+	rm -rf $(OPENAL)-build
 	rm -rf $(OPENAL)
 
 
