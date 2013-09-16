@@ -147,6 +147,19 @@ if(NOT ("$ENV{CFLAGS}" STREQUAL "")) # Hackish, but does the trick on Win32
   list(APPEND EXTRA_LDFLAGS "$ENV{LDFLAGS}")
 endif(NOT ("$ENV{CFLAGS}" STREQUAL ""))
 
+if(MSVC)
+  option(FORCE_STATIC_VCRT "Force /MT for static VC runtimes" OFF)
+  if(FORCE_STATIC_VCRT)
+    foreach(flag_var
+        CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
+        CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO)
+      if(${flag_var} matches "/MD")
+        string(regex replace "/MD" "/MT" ${flag_var} "${${flag_var}}")
+      endif()
+    endforeach(flag_var)
+  endif()
+endif(MSVC)
+
 # Those are used for pkg-config and friends, so that the SDL2.pc, sdl2-config,
 # etc. are created correctly.
 set(SDL_LIBS "-lSDL2")
