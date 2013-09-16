@@ -769,9 +769,9 @@ ifdef SS_WINDOWS
 	cp $(SDL2)/include/*.h $(SDL2_INC)
 else
 ifdef SS_64
-	cd $(SDL2)-build; cmake ../$(SDL2) -DSDL_STATIC=ON
+	cd $(SDL2)-build; cmake ../$(SDL2) -DSDL_STATIC=ON -DEXTRA_CFLAGS="-fPIC -m64"
 else
-	cd $(SDL2)-build; cmake ../$(SDL2) -DSDL_STATIC=ON -DFORCE_32BIT=ON
+	cd $(SDL2)-build; cmake ../$(SDL2) -DSDL_STATIC=ON -DEXTRA_CFLAGS="-fPIC -m32"
 endif
 	cd $(SDL2)-build; make SDL2-static
 	cp $(SDL2)-build/libSDL2$(SS_LIBEXT) $(LIB_DIR)
