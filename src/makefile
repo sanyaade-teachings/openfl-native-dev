@@ -757,8 +757,8 @@ $(SDL2):
 	mkdir -p $(SDL2_INC)
 	mkdir $(SDL2)-build
 	cp patches/SDL2/CMakeLists.txt $(SDL2)
-	cd $(SDL2)-build; cmake ../$(SDL2) -DDIRECTX=OFF -DSDL_STATIC=ON -DFORCE_STATIC_VCRT=ON
 ifdef SS_WINDOWS
+	cd $(SDL2)-build; cmake ../$(SDL2) -DDIRECTX=OFF -DSDL_STATIC=ON -DFORCE_STATIC_VCRT=ON
 	msbuild $(SDL2)-build/SDL2-static.vcxproj /p:Configuration=Release
 	cp $(SDL2)-build/Release/SDL2$(SS_LIBEXT) $(LIB_DIR)/libSDL2$(SS_LIBEXT)
 	#msbuild $(SDL2)-build/SDL2.vcxproj /p:Configuration=Release
@@ -768,6 +768,11 @@ ifdef SS_WINDOWS
 	cp $(SDL2)-build/Release/SDL2main$(SS_LIBEXT) $(LIB_DIR)/libSDL2main$(SS_LIBEXT)
 	cp $(SDL2)/include/*.h $(SDL2_INC)
 else
+ifdef SS_64
+	cd $(SDL2)-build; cmake ../$(SDL2) -DSDL_STATIC=ON
+else
+	cd $(SDL2)-build; cmake ../$(SDL2) -DSDL_STATIC=ON -DFORCE_32BIT=ON
+endif
 	cd $(SDL2)-build; make SDL2-static
 	cp $(SDL2)-build/libSDL2$(SS_LIBEXT) $(LIB_DIR)
 	cp $(SDL2)/include/*.h $(SDL2_INC)

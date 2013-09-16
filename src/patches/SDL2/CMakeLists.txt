@@ -147,6 +147,13 @@ if(NOT ("$ENV{CFLAGS}" STREQUAL "")) # Hackish, but does the trick on Win32
   list(APPEND EXTRA_LDFLAGS "$ENV{LDFLAGS}")
 endif(NOT ("$ENV{CFLAGS}" STREQUAL ""))
 
+if(USE_GCC OR USE_CLANG)
+  option(FORCE_32BIT "Force 32-bit compile" OFF)
+  if(FORCE_32BIT)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
+  endif()
+endif(USE_GCC OR USE_CLANG)
+
 if(MSVC)
   option(FORCE_STATIC_VCRT "Force /MT for static VC runtimes" OFF)
   if(FORCE_STATIC_VCRT)
