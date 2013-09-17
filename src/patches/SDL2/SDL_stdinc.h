@@ -31,11 +31,11 @@
 #include "SDL_config.h"
 
 
-
+#ifdef WIN32
 #include "SDL_config_windows.h"
 #include <process.h>
 #include <signal.h>
-
+#endif
 
 
 #ifdef HAVE_SYS_TYPES_H
