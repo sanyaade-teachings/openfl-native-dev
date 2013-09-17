@@ -759,12 +759,14 @@ $(SDL2):
 	cp patches/SDL2/CMakeLists.txt $(SDL2)
 ifdef SS_WINDOWS
 	#cp patches/SDL2/SDL_stdlib.c $(SDL2)/src/stdlib
-	cd $(SDL2)-build; cmake ../$(SDL2) -DDIRECTX=OFF -DSDL_STATIC=ON -DFORCE_STATIC_VCRT=ON -DEXTRA_CFLAGS="-MT -Z7 -DSDL_MAIN_HANDLED"
-	#msbuild $(SDL2)-build/SDL2-static.vcxproj /p:Configuration=Release
-	#cp $(SDL2)-build/Release/SDL2$(SS_LIBEXT) $(LIB_DIR)/libSDL2$(SS_LIBEXT)
-	msbuild $(SDL2)-build/SDL2.vcxproj /p:Configuration=Release
-	cp $(SDL2)-build/Release/SDL2.lib $(LIB_DIR)/libSDL2.lib
-	cp $(SDL2)-build/Release/SDL2.dll $(LIB_DIR)/SDL2.dll
+	cd $(SDL2)-build; cmake ../$(SDL2) -DDIRECTX=OFF -DSDL_STATIC=ON -DFORCE_STATIC_VCRT=ON -DEXTRA_CFLAGS="-MT -Z7 -DSDL_MAIN_HANDLED -DWIN32 -DNDEBUG -D_CRT_SECURE_NO_WARNINGS -DHAVE_LIBC -D_USE_MATH_DEFINES -DUNICODE"
+	cp patches/SDL2/SDL_config_windows.h $(SDL2)/include
+	cp patches/SDL2/SDL_stdinc.h $(SDL2)/include
+	msbuild $(SDL2)-build/SDL2-static.vcxproj /p:Configuration=Release
+	cp $(SDL2)-build/Release/SDL2$(SS_LIBEXT) $(LIB_DIR)/libSDL2$(SS_LIBEXT)
+	#msbuild $(SDL2)-build/SDL2.vcxproj /p:Configuration=Release
+	#cp $(SDL2)-build/Release/SDL2.lib $(LIB_DIR)/libSDL2.lib
+	#cp $(SDL2)-build/Release/SDL2.dll $(LIB_DIR)/SDL2.dll
 	msbuild $(SDL2)-build/SDL2main.vcxproj /p:Configuration=Release
 	cp $(SDL2)-build/Release/SDL2main$(SS_LIBEXT) $(LIB_DIR)/libSDL2main$(SS_LIBEXT)
 	cp $(SDL2)/include/*.h $(SDL2_INC)

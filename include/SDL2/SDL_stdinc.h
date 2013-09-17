@@ -30,6 +30,14 @@
 
 #include "SDL_config.h"
 
+
+
+#include "SDL_config_windows.h"
+#include <process.h>
+#include <signal.h>
+
+
+
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
