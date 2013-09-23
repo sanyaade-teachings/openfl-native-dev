@@ -135,6 +135,7 @@ endif
 endif
 
 
+
 ifeq ("$(OS)","android")
 
 ifeq ("x$(ANDROID_NDK_ROOT)","x")
@@ -154,18 +155,26 @@ endif
   SS_CONFIG := android
   LIB_DIR := ../lib/Android
   #JCONFIG := jconfig.mac
-  SS_DLLEXT := .so
   SDL := ERROR
+  
+  ifeq ("$(ARM)","v7")
+  SS_DLLEXT := -v7.so
+  SS_LIBEXT := -v7.a
+  SS_ARCHFLAGS := -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp
+  else
+  SS_DLLEXT := so
+  SS_ARCHFLAGS := -march=armv5te -mtune=xscale -msoft-float
+  endif
+  
   SS_CC := gcc \
  "-I$(ANDROID_NDK_ROOT)/toolchains/arm-linux-androideabi-4.4.3/prebuilt/$(ANDROID_HOST)/lib/gcc/arm-linux-androideabi/4.4.3/include/" \
  "-I$(ANDROID_NDK_ROOT)/sources/cxx-stl/gnu-libstdc++/include" \
  "-I$(ANDROID_NDK_ROOT)/sources/cxx-stl/gnu-libstdc++/libs/armeabi/include" \
  "-I$(ANDROID_NDK_ROOT)/platforms/android-5/arch-arm/usr/include" \
 -D_LINUX_STDDEF_H \
--fpic -fvisibility=hidden -mthumb-interwork -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ -Wno-psabi -march=armv5te -mtune=xscale -msoft-float -mthumb -Os -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -O2 -DNDEBUG -g -c
+-fpic -fvisibility=hidden -mthumb-interwork -ffunction-sections -funwind-tables -fstack-protector -fno-short-enums -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ -Wno-psabi $(SS_ARCHFLAGS) -mthumb -Os -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -O2 -DNDEBUG -g -c
   SS_RANLIB := "ranlib"
 endif
-
 
 
 IPHONE_VER := 6.0
@@ -178,6 +187,7 @@ ifeq ("$(ARM)","v7")
    IPHONE_ARCH := armv7
    ARCH_EXT := -v7
 endif
+
 
 ifeq ("$(OS)","iphoneos")
   SS_IPHONEOS := 1
@@ -317,10 +327,10 @@ all: png
 all: jpeg
 
 ifndef SS_WEBOS
-ifndef SS_ANDROID
 ifndef SS_WINRT
 all: ogg
 all: vorbis
+ifndef SS_ANDROID
 all: theora
 endif
 endif
@@ -382,7 +392,11 @@ $(OPENAL):
 	tar xvzf tars/$(OPENAL).tgz $(TAR_ARGS)
 	@echo $(OS)
 	mkdir $(OPENAL)-build
-	cd $(OPENAL)-build; cmake ../$(OPENAL)
+ifdef SS_ANDROID
+	cd $(OPENAL)-build; cmake ../$(OPENAL) -DLIBTYPE=STATIC -DOPENSL=1
+else
+	cd $(OPENAL)-build; cmake ../$(OPENAL) -DLIBTYPE=STATIC
+endif
 	cd $(OPENAL)-build; make
 	cp $(OPENAL)-build/libopenal-soft$(SS_LIBEXT) $(LIB_DIR)
 ifdef SS_RANLIB
