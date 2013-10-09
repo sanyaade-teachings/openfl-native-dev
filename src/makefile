@@ -395,10 +395,17 @@ $(OPENAL):
 ifdef SS_ANDROID
 	cd $(OPENAL)-build; cmake ../$(OPENAL) -DLIBTYPE=STATIC -DOPENSL=1
 else
-	cd $(OPENAL)-build; cmake ../$(OPENAL) -DLIBTYPE=STATIC
+ifdef SS_LINUX
+# -- Need to install "libpulse-dev" and "libasound2-dev" to include necessary backends
+ifdef SS_64
+	cd $(OPENAL)-build; cmake ../$(OPENAL) -DLIBTYPE=STATIC -DCMAKE_C_FLAGS="-fPIC -m64" -DREQUIRE_PULSEAUDIO=ON -DREQUIRE_ALSA=ON
+else
+	cd $(OPENAL)-build; cmake ../$(OPENAL) -DLIBTYPE=STATIC -DCMAKE_C_FLAGS="-fPIC -m32" -DREQUIRE_PULSEAUDIO=ON -DREQUIRE_ALSA=ON
+endif
+endif
 endif
 	cd $(OPENAL)-build; make
-	cp $(OPENAL)-build/libopenal-soft$(SS_LIBEXT) $(LIB_DIR)
+	cp $(OPENAL)-build/libopenal$(SS_LIBEXT) $(LIB_DIR)/libopenal$(SS_LIBEXT)
 ifdef SS_RANLIB
 	$(SS_RANLIB) $(LIB_DIR)/libopenal-soft$(SS_LIBEXT)
 endif
