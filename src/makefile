@@ -206,8 +206,8 @@ ifeq ("$(OS)","iphoneos")
       -arch $(IPHONE_ARCH) -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings \
       -Wreturn-type -Wunused-variable -fno-stack-protector  \
        -I$(XCODE_DEVELOPER)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$(IPHONE_VER).sdk/usr/include/ \
-      -isysroot $(XCODE_DEVELOPER)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$(IPHONE_VER).sdk \
-
+      -isysroot $(XCODE_DEVELOPER)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$(IPHONE_VER).sdk
+  SS_RANLIB := $(XCODE_DEVELOPER)/Platforms/iPhoneOS.platform/Developer/usr/bin/ranlib
 endif
 
 
@@ -228,8 +228,8 @@ ifeq ("$(OS)","iphonesim")
       -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings \
       -Wreturn-type -Wunused-variable  -fno-stack-protector \
        -I$(XCODE_DEVELOPER)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneOS$(IPHONE_VER).sdk/usr/include/ \
-      -isysroot $(XCODE_DEVELOPER)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator$(IPHONE_VER).sdk \
-
+      -isysroot $(XCODE_DEVELOPER)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator$(IPHONE_VER).sdk
+  SS_RANLIB := $(XCODE_DEVELOPER)/Platforms/iPhoneSimulator.platform/Developer/usr/bin/ranlib
 endif
 
 ifeq ("$(OS)","linux")
