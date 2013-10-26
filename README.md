@@ -1,11 +1,14 @@
-nmedev
+openfl-native-dev
 ======
 
-"nmedev" includes headers and libraries to help build NME from the source.
+This repository has headers and static libraries for building openfl-native from the source.
 
-Install this library using the following command:
+You may install using:
 
-	haxelib git nmedev https://github.com/haxenme/nmedev.git
+	haxelib git openfl-native-dev https://github.com/openfl/openfl-native-dev
+	
+Or:
 
+	git clone https://github.com/openfl/openfl-native-dev
+	haxelib dev openfl-native-dev openfl-native-dev
 
-You can keep it up-to-date using "haxelib upgrade"
