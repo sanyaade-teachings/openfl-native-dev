@@ -29,6 +29,11 @@ ifdef SS_WEBOS
 	RANLIB = arm-none-linux-gnueabi-ranlib
 endif
 
+ifdef SS_TIZEN
+	AR_RC = arm-linux-gnueabi-ar rcs
+	RANLIB = arm-linux-gnueabi-ranlib
+endif
+
 CDEBUG = -g -DPNG_DEBUG=5
 LDDEBUG =
 CRELEASE = -O2

@@ -69,6 +69,30 @@ ifeq ("$(OS)","darwin")
 
 endif
 
+
+ifeq ("$(OS)","tizen")
+
+  ifeq ("$(TIZEN_SDK)","")
+     TIZEN_SDK := C:/Development/Tizen/tizen-sdk
+  endif
+
+  PATH := $(TIZEN_SDK)/tools/arm-linux-gnueabi-gcc-4.5/bin:$(PATH)
+
+
+  SS_TIZEN := 1
+  export SS_TIZEN
+  export PATH
+  SS_CONFIG := tizen
+  LIB_DIR := ../lib/Tizen
+  #JCONFIG := jconfig.mac
+  SS_DLLEXT := .so
+  SDL := ERROR
+  SS_CC := arm-linux-gnueabi-gcc "-I${TIZEN_SDK}/platforms/tizen2.2/rootstraps/tizen-device-2.2.native/usr/include" -DTIZEN -fpic -fPIC -O2 -fvisibility=hidden
+  SS_RANLIB :=  arm-linux-gnueabi-ranlib
+  SS_CREATELIB := arm-linux-gnueabi-ar -cr$(SPACE)
+endif
+
+
 ifeq ("$(OS)","webos")
 
   ifeq ("$(PalmPDK)","")
@@ -313,7 +337,9 @@ endif
 ifndef SS_MAC
 ifndef SS_IPHONE
 ifndef SS_BLACKBERRY
+ifndef SS_TIZEN
 #all: openal
+endif
 endif
 endif
 endif
@@ -331,7 +357,9 @@ ifndef SS_WINRT
 all: ogg
 all: vorbis
 ifndef SS_ANDROID
+ifndef SS_TIZEN
 all: theora
+endif
 endif
 endif
 endif
@@ -343,10 +371,12 @@ ifndef SS_WEBOS
 ifndef SS_ANDROID
 ifndef SS_WINRT
 ifndef SS_MAC64
+ifndef SS_TIZEN
 all: smpeg
 all: sdl
 all: sdl_ttf
 all: sdl_mixer
+endif
 endif
 endif
 endif
@@ -483,6 +513,10 @@ $(CURL_SSL):
 	cp patches/curl/curlbuild.h $(CURL_SSL)/include/curl
 	cp patches/curl/crypto_misc.c ssl/axTLS/crypto
 ifdef SS_WEBOS
+	cp patches/zlib.h ssl/axTLS/ssl
+	cp patches/zconf.h ssl/axTLS/ssl
+endif
+ifdef SS_TIZEN
 	cp patches/zlib.h ssl/axTLS/ssl
 	cp patches/zconf.h ssl/axTLS/ssl
 endif
